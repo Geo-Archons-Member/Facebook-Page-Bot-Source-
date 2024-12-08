@@ -1,36 +1,34 @@
-const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   name: 'gemini',
-  description: 'Interact with the Gemini.',
-  author: 'Aljur Pogoy',
+  description: 'Interact with the Gemini',
+  admin: false,
   async execute(senderId, args, pageAccessToken, sendMessage) {
-    // 1. Combine arguments into a single prompt
-    const prompt = args.join(' ');
+    // 1. Get the prompt from the user's message
+    const prompt = args.join(' '); // Combine all arguments into a single string
     if (prompt.trim() === '') {
-      sendMessage(senderId, { text: 'Please provide a prompt for the Gemini API.' }, pageAccessToken);
+      sendMessage(senderId, { text: 'Please provide a prompt for Gemini.' }, pageAccessToken);
       return;
     }
 
     // 2. Construct the API URL
-    const apiUrl = 'https://deku-apis.onrender.com/gemini';
+    const apiUrl = `https://deku-apis.onrender.com/gemini?prompt=${encodeURIComponent(prompt)}`;
 
-    // 3. Send the request to the API
+    // 3. Fetch data from the API
     try {
-      const response = await axios.get(apiUrl, {
-        params: {
-          prompt: prompt
-        }
-      });
+      const response = await fetch(apiUrl);
+      const data = await response.json();
 
-      // 4. Handle the response
-      if (response.status === 200) {
-        sendMessage(senderId, { text: response.data }, pageAccessToken);
-      } else {
-        sendMessage(senderId, { text: 'Error interacting with the Gemini API.' }, pageAccessToken);
-      }
+      // 4. Extract the Gemini response
+      const geminiResponse = data.gemini;
+
+      // 5. Send the response to the user
+      sendMessage(senderId, { text: geminiResponse }, pageAccessToken);
     } catch (error) {
-      sendMessage(senderId, { text: 'Error interacting with the Gemini API.' }, pageAccessToken);
+      sendMessage(senderId, { text: 'Error interacting with Gemini API.' }, pageAccessToken);
     }
   }
 };
+        
