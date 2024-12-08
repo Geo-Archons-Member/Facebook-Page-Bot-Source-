@@ -2,8 +2,8 @@ const axios = require('axios');
 
 module.exports = {
   name: 'llama',
-  description: 'Ask Llama 3.2-11b-vision-instruct questions',
-  author: 'Deku (rest api)',
+  description: 'Ask Llama 3.2',
+  author: 'Aljur The great',
   async execute(senderId, args, pageAccessToken, sendMessage) {
     const question = args.join(' '); // Combine arguments into a single question
     if (!question) {
@@ -12,7 +12,7 @@ module.exports = {
     }
 
     try {
-      const apiUrl = `https://joshweb.click/ai/llama-3.2-11b-vision-instruct?q=${encodeURIComponent(question)}&uid=`;
+      const apiUrl = `https://deku-apis.onrender.com/ai/llama-3.2-11b-vision-instruct?q=${encodeURIComponent(question)}&uid=`;
       const response = await axios.get(apiUrl);
 
       if (response.data.error_message) {
