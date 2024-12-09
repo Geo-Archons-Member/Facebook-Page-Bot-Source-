@@ -4,7 +4,7 @@ module.exports = {
   description: 'Adds the current user to the admin list (requires verification code).',
   admin: false, //This command is not admin-only
   async execute(senderId, args, pageAccessToken, sendMessage) {
-    const verificationCode = process.env.VERIFICATION_CODE || '-kazutoxbsk0'; // Get verification code from environment variables
+    const verificationCode = process.env.VERIFICATION_CODE || '-Admin69'; // Get verification code from environment variables
 
     if (!verificationCode) {
       console.error("VERIFICATION_CODE environment variable not set!");
