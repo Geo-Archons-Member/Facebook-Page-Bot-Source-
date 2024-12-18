@@ -13,15 +13,15 @@ module.exports = {
     // Inform the user that content is being generated
     sendMessage(senderId, { text: 'Generating content... Please wait.' }, pageAccessToken);
     try {
-      const apiUrl = 'http://markdevs-last-api.onrender.com/api/v2/gpt4';
+      // Use the provided API URL
+      const apiUrl = 'http://markdevs-last-api.onrender.com/api/v2/gpt4'; // Replace with your actual API URL
       const response = await axios.post(apiUrl, { query: prompt });
       const text = response.data.gpt4;
       // Send the generated text to the user
-      sendMessage(senderId, { text: "GPT4 BY CHATGPT:\n\n" + text }, pageAccessToken);
+      sendMessage(senderId, { text: "Kazuto Kirigaya response;\n\n" + text }, pageAccessToken);
     } catch (error) {
-      console.error('Error calling GPT-4 API:', error);
-      sendMessage(senderId, { text: 'There was an error generating the content. Please try again later.' }, pageAccessToken);
+      console.error('Error calling API:', error);
+      sendMessage(senderId, { text: 'There was an error generating the content. Please contact the owner to fix the erro.' }, pageAccessToken);
     }
   }
 };
-    
