@@ -8,11 +8,11 @@ module.exports = {
     const prompt = args.join(' ');
 
     if (prompt === '') {
-      sendMessage(senderId, { text: 'Usage: /ai <question>' }, pageAccessToken);
+      sendMessage(senderId, { text: 'Usage: ai <question>' }, pageAccessToken);
       return;
     }
 
-    sendMessage(senderId, { text: 'Thinking...' }, pageAccessToken);
+    sendMessage(senderId, { text: 'Thinking please wait...' }, pageAccessToken);
 
     try {
       const apiUrl = 'https://www.niroblr.cloud/api/gpt4?prompt=' + encodeURIComponent(prompt); // Construct the API URL
@@ -20,13 +20,13 @@ module.exports = {
 
       if (response.status === 200) {
         const text = response.data.response.answer; // Assuming the response structure you provided
-        sendMessage(senderId, { text: `ChatGPT says: \n\n${text}` }, pageAccessToken);
+        sendMessage(senderId, { text: `Kazuto Bot says: \n\n${text}` }, pageAccessToken);
       } else {
         sendMessage(senderId, { text: 'Oops! Something went wrong. Please try again later.' }, pageAccessToken);
       }
 
     } catch (error) {
-      console.error('Error calling GPT-4 API:', error);
+      console.error('Error calling API:', error);
       sendMessage(senderId, { text: 'There was an error generating the content. Please try again later.' }, pageAccessToken);
     }
   }
