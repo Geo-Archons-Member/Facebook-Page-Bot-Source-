@@ -15,18 +15,16 @@ module.exports = {
       const commandName = args[0].toLowerCase();
       const commandFile = commandFiles.find(file => {
         const command = require(path.join(commandsDir, file));
-        return command.name.toLowerCase() === commandName;
+        // Check if the command is not hidden
+        return command.name.toLowerCase() === commandName && !command.hidden; 
       });
 
       if (commandFile) {
         const command = require(path.join(commandsDir, commandFile));
-        const commandDetails = `
-━━━━━━━━━━━━━━
-𝙲𝚘𝚖𝚖𝚊𝚗𝚍 𝙽𝚊𝚖𝚎: ${command.name}
+        const commandDetails = `━━━━━━━━━━━━━━𝙲𝚘𝚖𝚖𝚊𝚗𝚍 𝙽𝚊𝚖𝚎: ${command.name}
 𝙳𝚎𝚜𝚌𝚛𝚒𝚋𝚝𝚒𝚘𝚗: ${command.description}
 𝚄𝚜𝚊𝚐𝚎: ${command.usage}
 ━━━━━━━━━━━━━━`;
-        
         sendMessage(senderId, { text: commandDetails }, pageAccessToken);
       } else {
         sendMessage(senderId, { text: `Command "${commandName}" not found.` }, pageAccessToken);
@@ -34,21 +32,22 @@ module.exports = {
       return;
     }
 
+    // Filter out hidden commands
     const commands = commandFiles.map(file => {
       const command = require(path.join(commandsDir, file));
-      return `│ - ${command.name}`;
-    });
+      // Only include commands that are not hidden
+      if (!command.hidden) {
+        return `│ - ${command.name}`;
+      }
+    }).filter(Boolean); // Remove null values from the array
 
-    const helpMessage = `
-━━━━━━━━━━━━━━
-𝙰𝚟𝚊𝚒𝚕𝚊𝚋𝚕𝚎 𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜:
+    const helpMessage = `━━━━━━━━━━━━━━𝙰𝚟𝚊𝚒𝚕𝚊𝚋𝚕𝚎 𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜:
 ╭─╼━━━━━━━━╾─╮
 ${commands.join('\n')}
 ╰─━━━━━━━━━╾─╯
-Chat -help [name] 
-to see command details.
+Chat help [name] to see command details.
 ━━━━━━━━━━━━━━`;
-
     sendMessage(senderId, { text: helpMessage }, pageAccessToken);
   }
 };
+          
