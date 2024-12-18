@@ -15,11 +15,11 @@ module.exports = {
     sendMessage(senderId, { text: 'Thinking...' }, pageAccessToken);
 
     try {
-      const apiUrl = 'http://markdevs-last-api.onrender.com/api/v2/gpt4'; // Replace with your actual API URL
-      const response = await axios.post(apiUrl, { query: prompt });
+      const apiUrl = 'https://www.niroblr.cloud/api/gpt4?prompt=' + encodeURIComponent(prompt); // Construct the API URL
+      const response = await axios.get(apiUrl); // Use GET request
 
       if (response.status === 200) {
-        const text = response.data.gpt4;
+        const text = response.data.response.answer; // Assuming the response structure you provided
         sendMessage(senderId, { text: `ChatGPT says: \n\n${text}` }, pageAccessToken);
       } else {
         sendMessage(senderId, { text: 'Oops! Something went wrong. Please try again later.' }, pageAccessToken);
