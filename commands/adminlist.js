@@ -1,7 +1,7 @@
 module.exports = {
   name: 'adminlist',
   description: 'Lists all current admins.',
-  admin: false, // This command is admin-only
+  admin: true, //This command is admin-only
   async execute(senderId, args, pageAccessToken, sendMessage) {
     const adminList = global.admins || [];
 
@@ -10,8 +10,7 @@ module.exports = {
       return;
     }
 
-    const formattedList = adminList.map((admin) => `- ID: ${admin.userId} | Name: ${admin.userName}`).join('\n');
-
+    const formattedList = adminList.map((admin) => `- ID: ${admin.userId}, Name: ${admin.userName}`).join('\n');
     await sendMessage(senderId, { text: `Current Admins:\n${formattedList}` }, pageAccessToken);
   }
 };
