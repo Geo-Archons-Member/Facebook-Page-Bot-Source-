@@ -22,7 +22,14 @@ const sendMessage = async (senderId, { text = '', attachment = null }, pageAcces
     };
 
     if (text) {
-      messagePayload.message.text = text;
+      // Call AI API to get a response
+      const aiResponse = await axios.get(`https://www.niroblr.cloud/api/gpt4?prompt=${encodeURIComponent(text)}`);
+      const aiData = aiResponse.data;
+      if (aiData.content) {
+        messagePayload.message.text = JSON.parse(aiData.content.url_content).response.answer;
+      } else {
+        messagePayload.message.text = "Sorry, I couldn't understand your request.";
+      }
     }
 
     if (attachment) {
@@ -49,3 +56,4 @@ const sendMessage = async (senderId, { text = '', attachment = null }, pageAcces
 };
 
 module.exports = { sendMessage };
+  
