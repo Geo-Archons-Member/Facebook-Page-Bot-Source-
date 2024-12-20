@@ -3,6 +3,7 @@ const { sendMessage } = require('../handles/sendMessage');
 
 module.exports = {
   name: 'unity',
+  category: '𝙴𝚍𝚞𝚌𝚊𝚝𝚒𝚘𝚗',
   description: 'Get answer from unity ai',
   usage: 'unity [question]',
   author: 'coffee',
