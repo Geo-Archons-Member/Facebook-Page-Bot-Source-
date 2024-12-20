@@ -2,6 +2,7 @@ const axios = require('axios');
 
 module.exports = {
   name: 'kazuto',
+  category: '𝙴𝚍𝚞𝚌𝚊𝚝𝚒𝚘𝚗',
   admin: false,// you can change it, like author: ""
   execute: async (senderId, args, pageAccessToken, sendMessage) => {
     const question = args.join(' ');
