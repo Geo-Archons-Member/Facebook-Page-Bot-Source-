@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = {
   name: 'aimusic',
+  category: '𝙴𝚍𝚞𝚌𝚊𝚝𝚒𝚘𝚗',
   description: 'Generate music using deku rest api',
   author: 'Aljur pogoy',
   async execute(senderId, args, pageAccessToken, sendMessage) {
