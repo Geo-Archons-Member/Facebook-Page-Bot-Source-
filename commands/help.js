@@ -13,8 +13,6 @@ const commandCategories = {
   "👤 | User": ['balance', 'bankai']
 };
 
-};
-
 module.exports = {
   name: 'help',
   description: 'Show available commands',
@@ -35,10 +33,11 @@ function buildHelpMessage() {
 ${Object.entries(commandCategories).map(
     ([category, commands]) => `╭─╼━━━━━━━━╾─╮\n│ ${category}\n` + commands.map(cmd => `│ - ${cmd}`).join('\n') + `\n╰─━━━━━━━━━╾─╯`
   ).join('\n')}
-Chat -𝚑𝚎𝚕𝚙 [command name]
+Chat 𝚑𝚎𝚕𝚙 [command name]
 to see how to use available commands.
-
-𝙴𝚡𝚊𝚖𝚙𝚕𝚎: -help alldl
+developer: Aljur Pogoy
+admin: Ana Sophia
+𝙴𝚡𝚊𝚖𝚙𝚕𝚎: help bible
 ━━━━━━━━━━━━━━`;
 }
 
