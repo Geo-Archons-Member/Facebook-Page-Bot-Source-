@@ -1,7 +1,7 @@
 module.exports = {
   name: 'adminlist',
   description: 'Lists all current admins.',
-  admin: true, // This command is admin-only
+  admin: false, // This command is admin-only
   async execute(senderId, args, pageAccessToken, sendMessage) {
     const adminList = global.admins || [];
 
