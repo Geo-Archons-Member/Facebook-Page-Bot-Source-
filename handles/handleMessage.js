@@ -1,9 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const { sendMessage } = require('./sendMessage'); // Your sendMessage function
-
 const commands = new Map();
 const prefix = '/';
+
+// Load admin data from config.json
+const adminData = JSON.parse(fs.readFileSync('config.json', 'utf8')).ADMINS;
+global.admins = adminData.map(admin => ({ userId: admin.uid, userName: admin.name }));
 
 fs.readdirSync(path.join(__dirname, '../commands'))
   .filter(file => file.endsWith('.js'))
@@ -15,14 +18,11 @@ fs.readdirSync(path.join(__dirname, '../commands'))
 async function handleMessage(event, pageAccessToken) {
   const senderId = event?.sender?.id;
   if (!senderId) return console.error('Invalid event object');
-
   const messageText = event?.message?.text?.trim();
   if (!messageText) return console.log('Received event without message text');
-
   const [commandName, ...args] = messageText.startsWith(prefix)
     ? messageText.slice(prefix.length).split(' ')
     : messageText.split(' ');
-
   try {
     const command = commands.get(commandName); // Removed toLowerCase()
     if (command) {
@@ -41,4 +41,3 @@ async function handleMessage(event, pageAccessToken) {
 }
 
 module.exports = { handleMessage };
-    
