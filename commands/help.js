@@ -19,18 +19,27 @@ module.exports = {
   description: 'Show available commands',
   usage: '-help',
   author: 'System',
-  async execute(senderId, args, pageAccessToken) {
+
+  execute(senderId, args, pageAccessToken) {
     const response = args.length ? fetchCommandInfo(args[0]) : buildHelpMessage();
-    await sendMessage(senderId, { text: response, attachment: { type: 'image', payload: { url: 'https://imgur.com/a/R3OdL3L.jpg' } } }, pageAccessToken)
+    sendMessage(senderId, { text: response }, pageAccessToken)
       .catch(error => console.error(`Error sending message: ${error.message}`));
   }
 };
 
 // Function to build the help message
 function buildHelpMessage() {
-  return `━━━━━━━━━━━━━━𝙰𝚟𝚊𝚒𝚕𝚊𝚋𝚕𝚎 𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜:${Object.entries(commandCategories).map(
+  return `━━━━━━━━━━━━━━
+𝙰𝚟𝚊𝚒𝚕𝚊𝚋𝚕𝚎 𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜:
+${Object.entries(commandCategories).map(
     ([category, commands]) => `╭─╼━━━━━━━━╾─╮\n│ ${category}\n` + commands.map(cmd => `│ - ${cmd}`).join('\n') + `\n╰─━━━━━━━━━╾─╯`
-  ).join('\n')}Chat 𝚑𝚎𝚕𝚙 [command name]to see how to use available commands.developer: Aljur Pogoyadmin: Ana Sophia𝙴𝚡𝚊𝚖𝚙𝚕𝚎: help bible━━━━━━━━━━━━━━`;
+  ).join('\n')}
+Chat 𝚑𝚎𝚕𝚙 [command name]
+to see how to use available commands.
+developer: Aljur Pogoy
+admin: Ana Sophia
+𝙴𝚡𝚊𝚖𝚙𝚕𝚎: help bible
+━━━━━━━━━━━━━━`;
 }
 
 // Function to fetch command information
@@ -39,11 +48,15 @@ function fetchCommandInfo(commandName) {
   if (fs.existsSync(commandFilePath)) {
     try {
       const command = require(commandFilePath);
-      return `━━━━━━━━━━━━━━𝙲𝚘𝚖𝚖𝚊𝚗𝚝 𝙽𝚊𝚖𝚎: ${command.name}𝙳𝚎𝚜𝚌𝚛𝚒𝚙𝚝𝚒𝚘𝚗: ${command.description}𝚄𝚜𝚊𝚐𝚎: ${command.usage}━━━━━━━━━━━━━━`;
+      return `
+━━━━━━━━━━━━━━
+𝙲𝚘𝚖𝚖𝚊𝚗𝚝 𝙽𝚊𝚖𝚎: ${command.name}
+𝙳𝚎𝚜𝚌𝚛𝚒𝚙𝚝𝚒𝚘𝚗: ${command.description}
+𝚄𝚜𝚊𝚐𝚎: ${command.usage}
+━━━━━━━━━━━━━━`;
     } catch (error) {
       return `Error loading command "${commandName}": ${error.message}`;
     }
   }
   return `Command "${commandName}" not found.`;
-                      }
-                      
+  }
