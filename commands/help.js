@@ -6,10 +6,10 @@ const commandCategories = {
     "📖 | 𝙴𝚍𝚞𝚌𝚊𝚝𝚒𝚘𝚗": ['bible', 'translate', 'teach', 'wikipedia'],
     "🖼 | 𝙸𝚖𝚊𝚐𝚎": ['avatar', 'photoleap', 'pinterest', 'emojimix', 'imagine', 'remini'],
     "🎧 | 𝙼𝚞𝚜𝚒𝚌": ['aimusic', 'music', 'spotify', 'lyrics'],
-    "🤖 | AI & Chat": ['ai', 'claude2', 'claude3', 'gpt4', 'gpt4o', 'gemini', 'geminipro', 'mixtral', 'llama'],
+    "🤖 | AI & Chat": ['ai', 'claude2', 'claude3', 'gpt4', 'gpt4o', 'gemini', 'geminipro', 'mixtral', 'llama', 'kazuto', 'cici'],
     "🕹 | Games": ['game', 'ttt', 'slot', 'riddle'],
     "🌐 | Web & Search": ['bing', 'billboard', 'wikipedia'],
-    "📱 | Utilities": ['help', 'about', 'botversion', 'contact', 'corn', 'countcmd', 'daily', 'donate', 'eabab', 'emogif', 'generate', 'install', 'joke', 'kazuto', 'liner', 'meta', 'mlbbstalk', 'npm', 'owner', 'password', 'rbg', 'say', 'shoti', 'smsbomb', 'tempmail', 'unity', 'update', 'userinfo', 'version', 'video', 'ytb'],
+    "📱 | Utilities": ['help', 'about', 'botversion', 'contact', 'corn', 'countcmd', 'daily', 'donate', 'eabab', 'emogif', 'generate', 'install', 'joke', 'liner', 'meta', 'mlbbstalk', 'npm', 'owner', 'password', 'rbg', 'say', 'shoti', 'smsbomb', 'tempmail', 'unity', 'update', 'userinfo', 'version', 'video', 'ytb'],
     "👮 | Admin": ['addadmin', 'admincheck', 'adminlist'],
     "👤 | User": ['balance', 'bankai']
 };
