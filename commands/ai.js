@@ -15,7 +15,7 @@ module.exports = {
     sendMessage(senderId, { text: 'Thinking please wait...' }, pageAccessToken);
 
     try {
-      const apiUrl = 'https://kaiz-apis.gleeze.com/api/gemini-pro?q=' + encodeURIComponent(prompt); // Construct the API URL
+      const apiUrl = 'https://kaiz-apis.gleeze.com/api/gpt-4o' + encodeURIComponent(prompt); // Construct the API URL
       const response = await axios.get(apiUrl); // Use GET request
 
       if (response.status === 200) {
