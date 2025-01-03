@@ -1,30 +1,32 @@
 const axios = require('axios');
-const { sendMessage } = require('../handles/sendMessage');
 
 module.exports = {
   name: 'ai',
-  description: 'Interact with LLMA META AI',
-  usage: 'ai [your Question or Message]',
-  admin: false,
-  async execute(senderId, args, pageAccessToken) {
+  description: 'Ask a question to ChatGPT',
+  author: 'Aljur Pogoy',
+  async execute(senderId, args, pageAccessToken, sendMessage) {
     const prompt = args.join(' ');
-    if (!prompt) return sendMessage(senderId, { text: "Usage: ai <question>" }, pageAccessToken);
+
+    if (prompt === '') {
+      sendMessage(senderId, { text: 'Usage: ai <question>' }, pageAccessToken);
+      return;
+    }
+
+    sendMessage(senderId, { text: 'Thinking please wait...' }, pageAccessToken);
 
     try {
-      const response = await axios.get('https://kaiz-apis.gleeze.com/api/gpt-4o-pro', {
-        params: {
-          q: prompt,
-          uid: 1,
-          imageUrl: '' // Add an image URL if needed
-        }
-      });
+      const apiUrl = 'https://kaiz-apis.gleeze.com/api/gemini-pro?q=' + encodeURIComponent(prompt); // Construct the API URL
+      const response = await axios.get(apiUrl); // Use GET request
 
-      const data = response.data.content.url_content;
-      const parsedData = JSON.parse(data); // Parse the response as JSON
-      const responseText = parsedData.response; // Extract the response
+      if (response.status === 200) {
+        const text = response.data.response.answer; // Assuming the response structure you provided
+        sendMessage(senderId, { text: `Kazuto Bot says: \n\n${text}` }, pageAccessToken);
+      } else {
+        sendMessage(senderId, { text: 'Oops! Something went wrong. Please try again later.' }, pageAccessToken);
+      }
 
-      sendMessage(senderId, { text: responseText }, pageAccessToken);
     } catch (error) {
+      console.error('Error calling API:', error);
       sendMessage(senderId, { text: 'There was an error generating the content. Please try again later.' }, pageAccessToken);
     }
   }
