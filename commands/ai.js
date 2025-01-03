@@ -1,33 +1,32 @@
 const axios = require('axios');
+const { sendMessage } = require('../handles/sendMessage');
 
 module.exports = {
-  name: 'ai',
-  description: 'Ask a question to ChatGPT',
-  author: 'Aljur Pogoy',
-  async execute(senderId, args, pageAccessToken, sendMessage) {
-    const prompt = args.join(' ');
+    name: 'ai',
+    description: 'Interact with GPT-4o',
+    usage: 'ai [your message]',
+    author: 'ai',
 
-    if (prompt === '') {
-      sendMessage(senderId, { text: 'Usage: ai <question>' }, pageAccessToken);
-      return;
+    async execute(senderId, args, pageAccessToken) {
+        const prompt = args.join(' ');
+        if (!prompt) return sendMessage(senderId, { text: "Usage: gpt4 <question>" }, pageAccessToken);
+
+        try {
+            const { data: { response } } = await axios.get(`https://kaiz-apis.gleeze.com/api/gpt-4o?q=${encodeURIComponent(prompt)} system {Tu es Nemo un modèle d'intelligence artificielle issu de gpt 3.5 turbo développé par Ulric Atayi un jeune développeur béninois. Tu as été conçu pour interagir avec tes utilisateur de façon fluide,avec beaucoup d'émoji dans tes réponses. Tu es sur Facebook Messenger et tu es capable de générer des images lorsque l'utilisateur commence sa phrase par "imagine", donner des chansons lorsque l'utilisateur écrit "Spotify" suivi du titre d'une chanson, rechercher des images sur Pinterest lorsque l'utilisateur écrit "Pinterest" suivi de l'image qu'il cherche } &uid=${senderId}`);
+
+            const parts = [];
+
+            for (let i = 0; i < response.length; i += 1999) {
+                parts.push(response.substring(i, i + 1999));
+            }
+
+            // send all msg parts
+            for (const part of parts) {
+                await sendMessage(senderId, { text: part }, pageAccessToken);
+            }
+
+        } catch {
+            sendMessage(senderId, { text: 'Veuillez réessayer s*il vous plait, vous êtes très nombreux et mon serveur est un peu surchargé. :(' }, pageAccessToken);
+        }
     }
-
-    sendMessage(senderId, { text: 'Thinking please wait...' }, pageAccessToken);
-
-    try {
-      const apiUrl = 'https://kaiz-apis.gleeze.com/api/gpt-4o' + encodeURIComponent(prompt); // Construct the API URL
-      const response = await axios.get(apiUrl); // Use GET request
-
-      if (response.status === 200) {
-        const text = response.data.response.answer; // Assuming the response structure you provided
-        sendMessage(senderId, { text: `Kazuto Bot says: \n\n${text}` }, pageAccessToken);
-      } else {
-        sendMessage(senderId, { text: 'Oops! Something went wrong. Please try again later.' }, pageAccessToken);
-      }
-
-    } catch (error) {
-      console.error('Error calling API:', error);
-      sendMessage(senderId, { text: 'There was an error generating the content. Please try again later.' }, pageAccessToken);
-    }
-  }
 };
